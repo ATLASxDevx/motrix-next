@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'Versi mesin',
+  'license': 'Lisensi',
+  'about': 'Tentang',
+  'release': 'Catatan rilis',
+  'support': 'Dukungan',
+  'description': 'Manajer unduhan berfitur lengkap — dibangun ulang dari nol.',
+  'copied': '{label} disalin',
+  'click-to-copy': 'Klik untuk menyalin',
+  'version-copied': 'Versi {label} disalin',
+  'app-version': 'Versi Motrix Next',
+  'aria2-version': 'Versi aria2',
+  'loading': 'Memuat…',
+  'unavailable': 'Tidak tersedia',
+}

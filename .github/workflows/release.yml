@@ -1,0 +1,193 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: --target aarch64-apple-darwin
+            label: macos-aarch64
+          - platform: macos-15-intel
+            args: --target x86_64-apple-darwin
+            label: macos-x86_64
+          - platform: windows-latest
+            args: --target x86_64-pc-windows-msvc --bundles nsis
+            label: windows-x86_64
+          - platform: windows-latest
+            args: --target aarch64-pc-windows-msvc --bundles nsis
+            label: windows-aarch64
+          - platform: ubuntu-22.04
+            args: --target x86_64-unknown-linux-gnu
+            label: linux-x86_64
+          - platform: ubuntu-24.04-arm
+            args: --target aarch64-unknown-linux-gnu
+            label: linux-aarch64
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      # Cross-compilation: add the secondary Rust target when building for
+      # a different architecture on the same OS runner.
+      # - macOS x86_64 uses a native Intel runner (macos-13), no cross-compile needed.
+      # - Windows ARM64 cross-compiles on x64 runner (NSIS is arch-agnostic).
+      - name: Add cross-compilation target
+        if: contains(matrix.args, 'aarch64-pc-windows-msvc')
+        shell: bash
+        run: |
+          TARGET=$(echo '${{ matrix.args }}' | sed 's/.*--target \([^ ]*\).*/\1/')
+          rustup target add "$TARGET"
+
+      - uses: swatinem/rust-cache@v2
+
+      # Suppress Ubuntu 24.04 needrestart daemon (auto-restarts services on
+      # package install, can kill the runner agent and cause "operation canceled").
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          export NEEDRESTART_SUSPEND=1
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update
+          sudo -E apt-get install -y \
+            libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
+            librsvg2-dev patchelf xdg-utils
+
+      - run: pnpm install
+
+      - uses: tauri-apps/tauri-action@v0
+        id: tauri
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          NO_STRIP: ${{ contains(matrix.args, 'aarch64-unknown-linux') && 'true' || '' }}
+        with:
+          tagName: ${{ github.event.release.tag_name || '' }}
+          releaseId: ${{ github.event_name == 'release' && github.event.release.id || '' }}
+          includeUpdaterJson: false
+          args: ${{ matrix.args }}
+
+      - name: Upload build artifacts (manual trigger only)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v6
+        with:
+          name: motrix-next-${{ matrix.label }}
+          path: "${{ join(fromJSON(steps.tauri.outputs.artifactPaths), '\n') }}"
+          retention-days: 7
+
+  merge-updater-json:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+
+    steps:
+      - name: Generate and upload channel-specific updater JSON
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          VERSION="${TAG#v}"
+          BASE="https://github.com/${{ github.repository }}/releases/download/$TAG"
+
+          # Determine channel from tag name
+          if [[ "$TAG" == *"-beta"* ]] || [[ "$TAG" == *"-alpha"* ]] || [[ "$TAG" == *"-rc"* ]]; then
+            JSON_FILE="beta.json"
+            echo "Channel: BETA (tag=$TAG)"
+          else
+            JSON_FILE="latest.json"
+            echo "Channel: STABLE (tag=$TAG)"
+          fi
+
+          # Fetch release notes from the GitHub Release body
+          NOTES=$(gh release view "$TAG" -R "${{ github.repository }}" --json body -q .body || echo "")
+
+          mkdir -p sigs
+          gh release download "$TAG" -R "${{ github.repository }}" -p "*.sig" -D sigs
+
+          echo "Downloaded signatures:"
+          ls -la sigs/
+
+          read_sig() { [ -f "$1" ] && cat "$1" || echo ""; }
+
+          DARWIN_SIG=$(read_sig "sigs/MotrixNext_aarch64.app.tar.gz.sig")
+          DARWIN_X64_SIG=$(read_sig "sigs/MotrixNext_x64.app.tar.gz.sig")
+          WINDOWS_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_x64-setup.exe.sig")
+          WINDOWS_ARM_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_arm64-setup.exe.sig")
+          LINUX_X64_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_amd64.AppImage.sig")
+          LINUX_ARM_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_aarch64.AppImage.sig")
+          LINUX_X64_DEB_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_amd64.deb.sig")
+          LINUX_ARM_DEB_SIG=$(read_sig "sigs/MotrixNext_${VERSION}_arm64.deb.sig")
+
+          jq -n \
+            --arg version "$VERSION" \
+            --arg pub_date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg notes "$NOTES" \
+            --arg darwin_sig "$DARWIN_SIG" \
+            --arg darwin_url "$BASE/MotrixNext_aarch64.app.tar.gz" \
+            --arg darwin_x64_sig "$DARWIN_X64_SIG" \
+            --arg darwin_x64_url "$BASE/MotrixNext_x64.app.tar.gz" \
+            --arg win_sig "$WINDOWS_SIG" \
+            --arg win_url "$BASE/MotrixNext_${VERSION}_x64-setup.exe" \
+            --arg wina_sig "$WINDOWS_ARM_SIG" \
+            --arg wina_url "$BASE/MotrixNext_${VERSION}_arm64-setup.exe" \
+            --arg lx64_sig "$LINUX_X64_SIG" \
+            --arg lx64_url "$BASE/MotrixNext_${VERSION}_amd64.AppImage" \
+            --arg larm_sig "$LINUX_ARM_SIG" \
+            --arg larm_url "$BASE/MotrixNext_${VERSION}_aarch64.AppImage" \
+            --arg ldebx64_sig "$LINUX_X64_DEB_SIG" \
+            --arg ldebx64_url "$BASE/MotrixNext_${VERSION}_amd64.deb" \
+            --arg ldebarm_sig "$LINUX_ARM_DEB_SIG" \
+            --arg ldebarm_url "$BASE/MotrixNext_${VERSION}_arm64.deb" \
+            '{
+              version: $version,
+              notes: $notes,
+              pub_date: $pub_date,
+              platforms: {
+                "darwin-aarch64": { signature: $darwin_sig, url: $darwin_url },
+                "darwin-x86_64": { signature: $darwin_x64_sig, url: $darwin_x64_url },
+                "windows-x86_64": { signature: $win_sig, url: $win_url },
+                "windows-aarch64": { signature: $wina_sig, url: $wina_url },
+                "linux-x86_64": { signature: $lx64_sig, url: $lx64_url },
+                "linux-aarch64": { signature: $larm_sig, url: $larm_url },
+                "linux-x86_64-deb": { signature: $ldebx64_sig, url: $ldebx64_url },
+                "linux-aarch64-deb": { signature: $ldebarm_sig, url: $ldebarm_url }
+              }
+            }' > "$JSON_FILE"
+
+          echo "Generated $JSON_FILE:"
+          cat "$JSON_FILE"
+
+          # Ensure the permanent 'updater' release tag exists
+          gh release view updater -R "${{ github.repository }}" 2>/dev/null || \
+            gh release create updater \
+              --title "Auto-Updater Assets" \
+              --notes "Managed by CI. Do not delete. Contains latest.json and beta.json for the Tauri updater." \
+              --latest=false \
+              -R "${{ github.repository }}"
+
+          # Upload (overwrite) the channel JSON to the fixed 'updater' tag
+          gh release upload updater "$JSON_FILE" --clobber -R "${{ github.repository }}"
+          echo "Uploaded $JSON_FILE to 'updater' release"

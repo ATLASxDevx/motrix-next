@@ -1,0 +1,95 @@
+name: 🐛 Bug Report
+description: Report a bug in Motrix Next
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue!
+        Please check [existing issues](https://github.com/AnInsomniacy/motrix-next/issues) before creating a new one.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is and what you expected to happen.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Motrix Next Version
+      description: "The version shown in About panel (e.g. 3.4.1)"
+      placeholder: "3.4.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Windows (x64)
+        - Windows (ARM64)
+        - Linux (x64 / AppImage)
+        - Linux (x64 / deb)
+        - Linux (ARM64 / AppImage)
+        - Linux (ARM64 / deb)
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: OS Version
+      description: "e.g. macOS 15.3, Windows 11 24H2, Ubuntu 24.04"
+      placeholder: "macOS 15.3"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Provide detailed steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Diagnostic Logs
+      description: |
+        Please export logs via **Advanced Settings → Export Diagnostic Logs** (keep the log level at the default `debug`).
+        You can upload the exported `.zip` file directly here — no need to extract it. Just drag-and-drop and you're all set!
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: |
+        **Required.** Attach screenshots showing the issue. Screen recordings are especially helpful for UI and interaction bugs.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: validations
+    attributes:
+      label: Validations
+      options:
+        - label: I have searched the [existing issues](https://github.com/AnInsomniacy/motrix-next/issues) and this bug has not been reported before.
+          required: true
+        - label: I have read the [Code of Conduct](https://github.com/AnInsomniacy/motrix-next/blob/main/docs/CODE_OF_CONDUCT.md).
+          required: true
+        - label: This is a reproducible bug, not a question. For questions, please use [GitHub Discussions](https://github.com/AnInsomniacy/motrix-next/discussions).
+          required: true

@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'エンジンバージョン',
+  'license': 'ライセンス',
+  'about': 'について',
+  'release': 'リリースノート',
+  'support': 'サポート',
+  'description': 'フル機能のダウンロードマネージャー — ゼロから再構築。',
+  'copied': '{label} をコピーしました',
+  'click-to-copy': 'クリックしてコピー',
+  'version-copied': '{label} のバージョンをコピーしました',
+  'app-version': 'Motrix Next バージョン',
+  'aria2-version': 'aria2 バージョン',
+  'loading': '読み込み中…',
+  'unavailable': '利用不可',
+}

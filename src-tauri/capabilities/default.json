@@ -1,0 +1,58 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-show",
+    "core:window:allow-hide",
+    "core:window:allow-set-focus",
+    "opener:default",
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [{ "path": "**" }]
+    },
+    "store:default",
+    "shell:default",
+    "shell:allow-open",
+    "shell:allow-execute",
+    "dialog:default",
+    "notification:default",
+    "process:default",
+    "os:default",
+    "fs:default",
+    "fs:allow-read-file",
+    "fs:allow-remove",
+    "fs:allow-read-dir",
+    "fs:allow-stat",
+    "fs:allow-exists",
+    "fs:allow-rename",
+    "fs:allow-mkdir",
+    "fs:allow-write-file",
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        { "path": "$APPDATA/**" },
+        { "path": "$APPLOG/**" },
+        { "path": "$TEMP/**" },
+        { "path": "**" }
+      ]
+    },
+    "clipboard-manager:allow-read-text",
+    "autostart:default",
+    "updater:default",
+    "deep-link:default",
+    "locale:default",
+    "log:default",
+    "sql:default",
+    "sql:allow-execute"
+  ]
+}

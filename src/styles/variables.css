@@ -1,0 +1,513 @@
+/**
+ * @fileoverview Design tokens following Material Design 3 tonal surface system.
+ *
+ * Seed color: #E0A422 (Amber Gold)
+ * Architecture: M3 semantic tokens → legacy alias layer → component consumption
+ *
+ * Naming: --m3-{role} for M3 tokens, --{legacy} aliased to M3 tokens.
+ * Light values in :root, dark overrides in .dark class.
+ */
+
+/* ── Light Theme (default) ─────────────────────────────────────────── */
+:root {
+  /* ── M3 Surface Tonal System ───────────────────────────────────── */
+  --m3-surface: #fefbf6;
+  --m3-surface-dim: #dfdbd4;
+  --m3-surface-container-lowest: #ffffff;
+  --m3-surface-container-low: #f9f5ee;
+  --m3-surface-container: #f3efe8;
+  --m3-surface-container-high: #ede9e2;
+  --m3-surface-container-highest: #e7e3dd;
+
+  /* ── M3 On-Surface / Text ──────────────────────────────────────── */
+  --m3-on-surface: #1d1b16;
+  --m3-on-surface-variant: #4d4639;
+
+  /* ── M3 Outline / Borders ──────────────────────────────────────── */
+  --m3-outline: #7f7667;
+  --m3-outline-variant: #d1c7b7;
+
+  /* ── M3 Primary (Amber Gold) ───────────────────────────────────── */
+  --m3-primary: #7c5800;
+  --m3-on-primary: #ffffff;
+  --m3-primary-container: #ffdea3;
+  --m3-on-primary-container: #271900;
+
+  /* ── M3 Error ──────────────────────────────────────────────────── */
+  --m3-error: #ba1a1a;
+  --m3-on-error: #ffffff;
+  --m3-error-container: #ffdad6;
+
+  /* ── M3 Success (Extended) ─────────────────────────────────────── */
+  --m3-success: #386a20;
+  --m3-on-success: #ffffff;
+
+  /* ── M3 Tertiary (Green-gray — special operations) ──────────────── */
+  --m3-tertiary: #4a6547;
+  --m3-on-tertiary: #ffffff;
+  --m3-tertiary-container: rgba(74, 101, 71, 0.12);
+
+  /* ── M3 Warning (maps to Primary for amber brand) ──────────────── */
+  --m3-warning: #7c5800;
+  --m3-on-warning: #ffffff;
+
+  /* ── M3 Inverse ────────────────────────────────────────────────── */
+  --m3-inverse-surface: #32302b;
+  --m3-on-inverse-surface: #ebe4db;
+
+  /* ── M3 Scrollbar ──────────────────────────────────────────────── */
+  --m3-scrollbar-thumb: rgba(29, 27, 22, 0.3);
+  --m3-scrollbar-thumb-inactive: rgba(29, 27, 22, 0.15);
+
+  /* ── M3 Shadow ─────────────────────────────────────────────────── */
+  --m3-shadow: rgba(0, 0, 0, 0.15);
+
+  /* ── M3 Status Colors (semantic) ────────────────────────────────── */
+  --m3-status-active: #7c5800;
+  --m3-status-waiting: #7c5800;
+  --m3-status-paused: #7f7667;
+  --m3-status-error: #ba1a1a;
+  --m3-status-success: #386a20;
+
+  /* ── M3 Container Backgrounds (tinted surfaces) ────────────────── */
+  --m3-primary-container-bg: rgba(124, 88, 0, 0.1);
+  --m3-error-container-bg: rgba(186, 26, 26, 0.08);
+
+  /* ── M3 Drop Zone ──────────────────────────────────────────────── */
+  --m3-drop-zone-border: var(--m3-outline-variant);
+  --m3-drop-zone-active-border: var(--m3-primary);
+  --m3-drop-zone-bg: color-mix(in srgb, var(--m3-on-surface) 4%, transparent);
+
+  /* ── Brand Color (backward-compatible) ─────────────────────────── */
+  --color-primary: #e0a422;
+  --color-primary-hover: #c89319;
+  --color-primary-light-5: #f0d291;
+  --color-primary-light-9: #faf3e0;
+
+  /* ── Legacy Aliases → M3 Tokens ────────────────────────────────── */
+  --color-text-primary: var(--m3-on-surface);
+  --color-text-regular: var(--m3-on-surface-variant);
+  --color-text-secondary: var(--m3-outline);
+  --color-text-placeholder: var(--m3-outline-variant);
+
+  --border-color-base: var(--m3-outline-variant);
+  --border-color-light: var(--m3-outline-variant);
+  --border-color-lighter: #ebeef5;
+
+  --aside-bg: #e4dfd7;
+  --aside-text: var(--m3-on-surface);
+  --aside-icon-color: rgba(0, 0, 0, 0.55);
+  --aside-icon-hover-bg: rgba(0, 0, 0, 0.08);
+
+  --subnav-bg: var(--m3-surface-container);
+  --subnav-title: var(--m3-on-surface);
+  --subnav-text: var(--m3-on-surface-variant);
+  --subnav-active-text: var(--color-primary);
+  --subnav-active-bg: var(--m3-surface-container-highest);
+  --subnav-action: var(--m3-on-surface-variant);
+
+  --main-bg: var(--m3-surface);
+  --panel-bg: var(--m3-surface);
+  --panel-title: var(--m3-on-surface);
+  --panel-border: var(--m3-outline-variant);
+
+  --task-item-bg: var(--m3-surface-container-lowest);
+  --task-item-border: var(--m3-outline-variant);
+  --task-item-hover-border: var(--color-primary);
+  --task-item-text: var(--m3-on-surface-variant);
+  --task-action-bg: var(--m3-surface-container-lowest);
+  --task-action-border: var(--m3-surface-container-highest);
+  --task-action-color: var(--m3-outline);
+  --task-action-hover-bg: var(--m3-surface-container-high);
+  --task-action-hover-border: var(--m3-outline);
+  --task-action-hover-color: var(--m3-on-surface);
+
+  --speedometer-bg: var(--m3-surface-container);
+  --speedometer-border: var(--m3-outline-variant);
+  --speedometer-hover-border: var(--m3-outline);
+  --speedometer-primary: var(--color-primary);
+  --speedometer-stopped: var(--m3-outline);
+  --speedometer-text: var(--m3-outline);
+
+  --add-task-footer-bg: var(--m3-surface-container-high);
+  --dialog-bg: var(--m3-surface-container-high);
+  --preference-text: var(--m3-on-surface-variant);
+
+  --about-glass-bg: rgba(254, 251, 246, 0.96);
+  --about-glass-ring: rgba(0, 0, 0, 0.08);
+  --about-card-bg: var(--m3-surface-container-lowest);
+  --about-card-hover-bg: var(--m3-surface-container-high);
+
+  --window-ctrl-border: rgba(0, 0, 0, 0.15);
+  --window-ctrl-bg: rgba(0, 0, 0, 0.05);
+  --window-ctrl-color: rgba(0, 0, 0, 0.55);
+  --window-ctrl-hover-bg: rgba(0, 0, 0, 0.1);
+  --window-ctrl-hover-border: rgba(0, 0, 0, 0.25);
+  --window-ctrl-hover-color: rgba(0, 0, 0, 0.85);
+
+  /* macOS traffic light — inactive (unfocused) */
+  --tl-inactive: #d4d4d4;
+
+  /* ── Layout ────────────────────────────────────────────────────── */
+  --aside-width: 78px;
+  --subnav-width: 200px;
+  --titlebar-height: 0px;
+
+  /* ── Typography ────────────────────────────────────────────────── */
+  --font-family:
+    'Monospaced Number', 'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-lg: 16px;
+  --border-radius: 6px;
+  --transition-all: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  --transition-fast: 0.15s cubic-bezier(0.2, 0, 0, 1);
+  --transition-border: border-color 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ── Dark Theme ────────────────────────────────────────────────────── */
+.dark {
+  /* ── M3 Surface Tonal System ───────────────────────────────────── */
+  --m3-surface: #141210;
+  --m3-surface-dim: #141210;
+  --m3-surface-container-lowest: #0e0d0b;
+  --m3-surface-container-low: #1c1a17;
+  --m3-surface-container: #201e1b;
+  --m3-surface-container-high: #2b2926;
+  --m3-surface-container-highest: #363331;
+
+  /* ── M3 On-Surface / Text ──────────────────────────────────────── */
+  --m3-on-surface: #e8e2d9;
+  --m3-on-surface-variant: #d0c8b9;
+
+  /* ── M3 Outline / Borders ──────────────────────────────────────── */
+  --m3-outline: #998f80;
+  --m3-outline-variant: #4d4639;
+
+  /* ── M3 Primary (Amber Gold — lighter in dark) ─────────────────── */
+  --m3-primary: #f0bf48;
+  --m3-on-primary: #412d00;
+  --m3-primary-container: #5e4200;
+  --m3-on-primary-container: #ffdea3;
+
+  /* ── M3 Error ──────────────────────────────────────────────────── */
+  --m3-error: #ffb4ab;
+  --m3-on-error: #690005;
+  --m3-error-container: #93000a;
+
+  /* ── M3 Success (Extended — lighter in dark) ────────────────────── */
+  --m3-success: #8edb6a;
+  --m3-on-success: #0a3900;
+
+  /* ── M3 Tertiary (Green-gray — lighter in dark) ─────────────────── */
+  --m3-tertiary: #a1d09a;
+  --m3-on-tertiary: #0d3a0a;
+  --m3-tertiary-container: rgba(161, 208, 154, 0.15);
+
+  /* ── M3 Warning ────────────────────────────────────────────────── */
+  --m3-warning: #f0bf48;
+  --m3-on-warning: #412d00;
+
+  /* ── M3 Inverse ────────────────────────────────────────────────── */
+  --m3-inverse-surface: #e8e2d9;
+  --m3-on-inverse-surface: #32302b;
+
+  /* ── M3 Scrollbar ──────────────────────────────────────────────── */
+  --m3-scrollbar-thumb: rgba(232, 226, 217, 0.22);
+  --m3-scrollbar-thumb-inactive: rgba(232, 226, 217, 0.1);
+
+  /* ── M3 Shadow ─────────────────────────────────────────────────── */
+  --m3-shadow: rgba(0, 0, 0, 0.5);
+
+  /* ── M3 Status Colors (semantic — lighter in dark) ──────────────── */
+  --m3-status-active: #f0bf48;
+  --m3-status-waiting: #f0bf48;
+  --m3-status-paused: #998f80;
+  --m3-status-error: #ffb4ab;
+  --m3-status-success: #8edb6a;
+
+  /* ── M3 Container Backgrounds (tinted surfaces — dark) ─────────── */
+  --m3-primary-container-bg: rgba(240, 191, 72, 0.12);
+  --m3-error-container-bg: rgba(255, 180, 171, 0.08);
+
+  /* ── Brand Color (consistent across themes) ────────────────────── */
+  --color-primary-light-5: #5e4200;
+  --color-primary-light-9: #271900;
+
+  /* ── Legacy Overrides (dark-specific) ──────────────────────────── */
+  --border-color-lighter: #3a3730;
+
+  --aside-bg: rgb(20, 20, 22);
+  --aside-text: #fff;
+  --aside-icon-color: rgba(255, 255, 255, 0.7);
+  --aside-icon-hover-bg: rgba(255, 255, 255, 0.15);
+
+  --subnav-active-text: #fff;
+
+  /* ── Dark gradient: aside(darkest) → subnav(dark) → main(lighter) ── */
+  --subnav-bg: var(--m3-surface-container-low);
+  --main-bg: var(--m3-surface-container-high);
+  --panel-bg: var(--m3-surface-container-high);
+  --task-item-bg: var(--m3-surface-container);
+  --task-action-bg: var(--m3-surface-container);
+
+  --window-ctrl-border: rgba(255, 255, 255, 0.12);
+  --window-ctrl-bg: rgba(255, 255, 255, 0.06);
+  --window-ctrl-color: rgba(255, 255, 255, 0.55);
+  --window-ctrl-hover-bg: rgba(255, 255, 255, 0.12);
+  --window-ctrl-hover-border: rgba(255, 255, 255, 0.2);
+  --window-ctrl-hover-color: rgba(255, 255, 255, 0.9);
+
+  /* macOS traffic light — inactive (unfocused) */
+  --tl-inactive: #4a4a4a;
+
+  --about-glass-bg: rgba(32, 30, 27, 0.96);
+  --about-glass-ring: rgba(255, 255, 255, 0.1);
+  --about-card-bg: var(--m3-surface-container);
+  --about-card-hover-bg: var(--m3-surface-container-highest);
+}
+
+/* ── Global Reset ──────────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  font-family: var(--font-family);
+  font-variant: tabular-nums;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background: transparent;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar (M3-aware) ──────────────────────────────────────────── */
+/* Width is 6px instead of 8px to avoid overlapping the ~8px CSD       */
+/* (Client-Side Decoration) resize margin that Tauri creates on all    */
+/* window edges under Wayland (decorations: false). An 8px scrollbar   */
+/* flush against the window edge falls entirely inside the resize       */
+/* hitbox, making it un-draggable and "sticky" after a window resize.   */
+/* 6px breaks the full overlap. macOS/Windows are unaffected — their    */
+/* WMs handle resize outside the webview. Ref: tao#892, wry#1167.      */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: var(--m3-scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background-color: var(--m3-scrollbar-thumb-inactive);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ── Base Element Styles ───────────────────────────────────────────── */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── Global Text Selection ────────────────────────────────────────── */
+/* Native desktop apps do not allow selecting UI labels/headings.     */
+/* Opt-in whitelist preserves text interaction where users expect it.  */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input,
+textarea,
+[contenteditable],
+code,
+pre,
+.n-input,
+.n-input__textarea-el,
+.n-input__input-el,
+.user-selectable {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ── Draggable Regions ─────────────────────────────────────────────── */
+.draggable {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+.non-draggable {
+  -webkit-app-region: no-drag;
+}
+
+/* ── Animations ────────────────────────────────────────────────────── */
+@keyframes mo-progress-active {
+  0% {
+    opacity: 0.1;
+    width: 0;
+  }
+
+  20% {
+    opacity: 0.5;
+    width: 0;
+  }
+
+  100% {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+.fade-enter-active {
+  transition:
+    opacity 0.2s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.fade-leave-active {
+  transition:
+    opacity 0.15s cubic-bezier(0.3, 0, 0.8, 0.15),
+    transform 0.15s cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.fade-scale-enter-active {
+  transition:
+    opacity 0.22s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.fade-scale-leave-active {
+  transition:
+    opacity 0.15s cubic-bezier(0.3, 0, 0.8, 0.15),
+    transform 0.15s cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+.fade-scale-enter-from {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ── Naive UI Transition Overrides ─────────────────────────────────── */
+.n-tabs-pane-wrapper {
+  transition:
+    opacity 0.18s cubic-bezier(0.2, 0, 0, 1),
+    height 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
+  overflow: hidden;
+}
+
+.n-tab-pane-enter-active {
+  transition: opacity 0.18s cubic-bezier(0.2, 0, 0, 1) !important;
+  transform: none !important;
+}
+
+.n-tab-pane-leave-active {
+  transition: opacity 0.12s cubic-bezier(0.3, 0, 0.8, 0.15) !important;
+  transform: none !important;
+}
+
+.n-tab-pane-enter-from,
+.n-tab-pane-leave-to {
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+.n-modal-mask-enter-active {
+  transition: opacity 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.n-modal-mask-leave-active {
+  transition: opacity 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) !important;
+}
+
+.n-modal-body-wrapper--enter-active {
+  transition:
+    opacity 0.3s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.n-modal-body-wrapper--leave-active {
+  transition:
+    opacity 0.15s cubic-bezier(0.3, 0, 0.8, 0.15),
+    transform 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) !important;
+}
+
+.n-modal-body-wrapper--enter-from {
+  opacity: 0 !important;
+  transform: scale(0.92) !important;
+}
+
+.n-modal-body-wrapper--leave-to {
+  opacity: 0 !important;
+  transform: scale(0.96) !important;
+}
+
+.n-dialog {
+  transform-origin: center center !important;
+}
+
+.n-dialog .n-button {
+  min-width: 68px;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.n-drawer-container,
+.n-modal-mask {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Page hidden: pause all infinite animations ────────────────────── */
+/* Prevents WebView2 from re-compositing transparent layers each frame  */
+/* when the window is minimized or the user switches to another app.    */
+/* Toggled by the useVisibilityPause composable via Page Visibility API */
+.animations-paused *,
+.animations-paused *::before,
+.animations-paused *::after {
+  animation-play-state: paused !important;
+}

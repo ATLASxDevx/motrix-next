@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Motrix Next",
+        "width": 1068,
+        "height": 680,
+        "minWidth": 970,
+        "minHeight": 560,
+        "transparent": true,
+        "decorations": false,
+        "visible": false,
+        "center": true,
+        "shadow": false,
+        "additionalBrowserArgs": "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection --enable-features=msSmoothScrolling --animation-policy=allowed"
+      }
+    ]
+  }
+}

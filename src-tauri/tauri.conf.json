@@ -1,0 +1,128 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MotrixNext",
+  "identifier": "com.motrix.next",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Motrix Next",
+        "width": 1068,
+        "height": 680,
+        "minWidth": 970,
+        "minHeight": 560,
+        "transparent": true,
+        "decorations": false,
+        "visible": false,
+        "center": true,
+        "shadow": false
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "macOSPrivateApi": true
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "createUpdaterArtifacts": true,
+    "externalBin": [
+      "binaries/motrixnext-aria2c"
+    ],
+    "resources": [
+      "binaries/aria2.conf"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": [
+          "torrent"
+        ],
+        "name": "BitTorrent",
+        "mimeType": "application/x-bittorrent",
+        "description": "BitTorrent File",
+        "role": "Viewer"
+      },
+      {
+        "ext": [
+          "metalink",
+          "meta4"
+        ],
+        "name": "Metalink",
+        "mimeType": "application/metalink+xml",
+        "description": "Metalink File",
+        "role": "Viewer"
+      }
+    ],
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "headerImage": "nsis/header.bmp",
+        "sidebarImage": "nsis/sidebar.bmp",
+        "installMode": "currentUser",
+        "displayLanguageSelector": true,
+        "languages": [
+          "Arabic",
+          "Bulgarian",
+          "Catalan",
+          "German",
+          "Greek",
+          "English",
+          "Spanish",
+          "Farsi",
+          "French",
+          "Hungarian",
+          "Indonesian",
+          "Italian",
+          "Japanese",
+          "Korean",
+          "Norwegian",
+          "Dutch",
+          "Polish",
+          "PortugueseBR",
+          "Romanian",
+          "Russian",
+          "Thai",
+          "Turkish",
+          "Ukrainian",
+          "Vietnamese",
+          "SimpChinese",
+          "TradChinese"
+        ],
+        "installerHooks": "nsis/hooks.nsh"
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/AnInsomniacy/motrix-next/releases/download/updater/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc2MjEwNDUzQTk3OUM2NDUKUldSRnhubXBVd1FoZHUxeWtoRGJFblZaZ3V3UWZMQTYwL29CQTNySWxQMForTDA2YjN1Mk50Sk4K"
+    },
+    "deep-link": {
+      "desktop": {
+        "schemes": [
+          "magnet",
+          "thunder"
+        ]
+      }
+    },
+    "sql": {
+      "preload": ["sqlite:history.db"]
+    }
+  }
+}

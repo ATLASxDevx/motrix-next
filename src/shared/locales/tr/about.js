@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'Motor sürümü',
+  'license': 'Lisans',
+  'about': 'Hakkında',
+  'release': 'Sürüm notları',
+  'support': 'Destek',
+  'description': 'Tam özellikli indirme yöneticisi — sıfırdan yeniden inşa edildi.',
+  'copied': '{label} kopyalandı',
+  'click-to-copy': 'Kopyalamak için tıklayın',
+  'version-copied': '{label} sürümü kopyalandı',
+  'app-version': 'Motrix Next Sürümü',
+  'aria2-version': 'aria2 Sürümü',
+  'loading': 'Yükleniyor…',
+  'unavailable': 'Kullanılamıyor',
+}

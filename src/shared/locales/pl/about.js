@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'Wersja silnika',
+  'license': 'Licencja',
+  'about': 'O programie',
+  'release': 'Informacje o wydaniu',
+  'support': 'Wsparcie',
+  'description': 'Pełnofunkcyjny menedżer pobierania — zbudowany od nowa.',
+  'copied': '{label} skopiowano',
+  'click-to-copy': 'Kliknij, aby skopiować',
+  'version-copied': 'Wersja {label} skopiowana',
+  'app-version': 'Wersja Motrix Next',
+  'aria2-version': 'Wersja aria2',
+  'loading': 'Ładowanie…',
+  'unavailable': 'Niedostępny',
+}

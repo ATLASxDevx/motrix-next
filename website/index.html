@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motrix Next</title>
+    <meta
+      name="description"
+      content="A full-featured download manager rebuilt with Tauri 2, Vue 3, and Rust. ~20MB bundle. HTTP, FTP, BitTorrent, Magnet. macOS, Windows, Linux."
+    />
+    <meta name="theme-color" content="#0c0c0e" />
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Critical: prevent Flash of Untranslated Content -->
+    <style>
+      body:not(.i18n-ready) {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      body.i18n-ready {
+        visibility: visible;
+        animation: i18nReveal 250ms ease forwards;
+      }
+
+      @keyframes i18nReveal {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+    <noscript>
+      <style>
+        body {
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
+  </head>
+
+  <body>
+    <nav id="nav">
+      <a href="#" class="nav-logo">
+        <img src="assets/logo.png" alt="" width="28" height="28" class="nav-icon" />
+        MOTRIX NEXT
+      </a>
+      <div class="nav-right">
+        <!-- Language picker -->
+        <div class="lang-picker" id="lang-picker">
+          <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Language">
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            <span id="lang-toggle-label">English</span>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <button
+              class="lang-option lang-system-hint"
+              id="lang-system-hint"
+              style="display: none"
+              data-lang=""
+            ></button>
+            <div class="lang-separator"></div>
+            <button class="lang-option" data-lang="ar">العربية</button>
+            <button class="lang-option" data-lang="bg">Български</button>
+            <button class="lang-option" data-lang="ca">Català</button>
+            <button class="lang-option" data-lang="de">Deutsch</button>
+            <button class="lang-option" data-lang="el">Ελληνικά</button>
+            <button class="lang-option" data-lang="en-US">English</button>
+            <button class="lang-option" data-lang="es">Español</button>
+            <button class="lang-option" data-lang="fa">فارسی</button>
+            <button class="lang-option" data-lang="fr">Français</button>
+            <button class="lang-option" data-lang="hu">Magyar</button>
+            <button class="lang-option" data-lang="id">Bahasa Indonesia</button>
+            <button class="lang-option" data-lang="it">Italiano</button>
+            <button class="lang-option" data-lang="ja">日本語</button>
+            <button class="lang-option" data-lang="ko">한국어</button>
+            <button class="lang-option" data-lang="nb">Norsk bokmål</button>
+            <button class="lang-option" data-lang="nl">Nederlands</button>
+            <button class="lang-option" data-lang="pl">Polski</button>
+            <button class="lang-option" data-lang="pt-BR">Português (BR)</button>
+            <button class="lang-option" data-lang="ro">Română</button>
+            <button class="lang-option" data-lang="ru">Русский</button>
+            <button class="lang-option" data-lang="th">ไทย</button>
+            <button class="lang-option" data-lang="tr">Türkçe</button>
+            <button class="lang-option" data-lang="uk">Українська</button>
+            <button class="lang-option" data-lang="vi">Tiếng Việt</button>
+            <button class="lang-option" data-lang="zh-CN">简体中文</button>
+            <button class="lang-option" data-lang="zh-TW">繁體中文</button>
+          </div>
+        </div>
+        <!-- Theme picker -->
+        <div class="theme-picker" id="theme-picker">
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Theme">
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <span id="theme-toggle-label" data-i18n="theme.system">System</span>
+          </button>
+          <div class="theme-dropdown" id="theme-dropdown">
+            <button class="theme-option" data-theme="system" id="theme-system-hint">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <span data-i18n="theme.system">System</span>
+            </button>
+            <div class="theme-separator"></div>
+            <button class="theme-option" data-theme="light">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+              <span data-i18n="theme.light">Light</span>
+            </button>
+            <button class="theme-option" data-theme="dark">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+              <span data-i18n="theme.dark">Dark</span>
+            </button>
+          </div>
+        </div>
+        <a
+          href="https://github.com/AnInsomniacy/motrix-next"
+          class="nav-gh"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+            />
+          </svg>
+        </a>
+        <a href="#download" class="nav-cta" id="nav-download" data-i18n="nav.download">Download</a>
+      </div>
+    </nav>
+
+    <main>
+      <section id="hero">
+        <div class="hero-watermark" aria-hidden="true">
+          <img src="assets/logo-bolt-light.png" alt="" width="800" height="800" />
+        </div>
+        <img src="assets/logo.png" alt="Motrix Next" class="hero-logo" width="128" height="128" />
+        <h1>Motrix <span class="h1-accent">Next</span></h1>
+        <p class="tagline" data-i18n="hero.tagline">A full-featured download manager — rebuilt from the ground up.</p>
+        <div class="pills">
+          <span class="pill"
+            ><svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <line x1="8" y1="4" x2="8" y2="20" />
+            </svg>
+            Tauri 2</span
+          >
+          <span class="pill"
+            ><svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.84Z"
+              />
+              <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
+              <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
+            </svg>
+            Vue 3</span
+          >
+          <span class="pill"
+            ><svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 .67-.95l7-2.5a1 1 0 0 1 .67 0l7 2.5A1 1 0 0 1 20 6z"
+              />
+            </svg>
+            Rust</span
+          >
+          <span class="pill"
+            ><svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 20 .5 20 .5s-4.5 4.5-2.5 10.2A7 7 0 0 1 11 20" />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+            </svg>
+            Naive UI</span
+          >
+        </div>
+        <div class="hero-actions">
+          <a
+            href="https://github.com/AnInsomniacy/AnInsomniacy/blob/main/SPONSOR.md"
+            class="cta cta-sponsor"
+            id="hero-sponsor"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+              />
+            </svg>
+            <span data-i18n="hero.sponsor">Sponsor</span>
+          </a>
+          <a href="#download" class="cta" id="hero-download">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span data-i18n="hero.download">Download</span>
+          </a>
+          <a
+            href="https://github.com/AnInsomniacy/motrix-next"
+            class="cta cta-github"
+            id="hero-github"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            <span data-i18n="hero.github">GitHub</span>
+          </a>
+        </div>
+        <p class="hero-meta" data-i18n="hero.platforms">macOS · Windows · Linux</p>
+        <p class="hero-bundle" data-i18n="hero.bundle">~20 MB lightweight bundle</p>
+      </section>
+
+      <section id="showcase">
+        <div class="showcase-pair reveal">
+          <figure class="showcase-frame" onclick="openLightbox(this.querySelector('img').src)">
+            <img
+              src="assets/screenshot-light.png"
+              alt="Motrix Next — Light Mode"
+              width="1440"
+              height="900"
+              loading="lazy"
+            />
+            <figcaption data-i18n="showcase.light">Light Mode</figcaption>
+          </figure>
+          <figure class="showcase-frame" onclick="openLightbox(this.querySelector('img').src)">
+            <img
+              src="assets/screenshot-dark.png"
+              alt="Motrix Next — Dark Mode"
+              width="1440"
+              height="900"
+              loading="lazy"
+            />
+            <figcaption data-i18n="showcase.dark">Dark Mode</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+        <img id="lightbox-img" src="" alt="" />
+      </div>
+
+      <section id="story" class="section">
+        <h2 class="reveal" data-i18n="story.title">Why Motrix Next?</h2>
+        <div class="prose reveal">
+          <p data-i18n="story.p1">
+            Motrix by agalwood was one of the best open-source download managers available — clean UI, aria2-powered,
+            cross-platform. It inspired thousands of users and developers alike.
+          </p>
+          <p data-i18n="story.p2">
+            The original project has been largely inactive since 2023. The Electron + Vue 2 + Vuex + Element UI stack
+            accumulated technical debt, making it increasingly difficult to maintain, extend, or package for modern
+            platforms.
+          </p>
+        </div>
+      </section>
+
+      <section id="rewrite" class="section section-wide">
+        <div class="rewrite-watermark" aria-hidden="true">
+          <img src="assets/logo-bolt-dark.png" alt="" width="500" height="500" loading="lazy" />
+        </div>
+        <h2 class="reveal" data-i18n="rewrite.title">A ground-up rewrite.</h2>
+        <p class="lead reveal" data-i18n="rewrite.lead">Same download manager spirit, entirely new codebase.</p>
+        <div class="table-wrap reveal">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th data-i18n="rewrite.col.layer">Layer</th>
+                <th data-i18n="rewrite.col.legacy">Motrix (Legacy)</th>
+                <th data-i18n="rewrite.col.next">Motrix Next</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-i18n="rewrite.runtime">Runtime</td>
+                <td data-i18n="rewrite.runtime.old">Electron</td>
+                <td data-i18n="rewrite.runtime.new">Tauri 2 (Rust)</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.frontend">Frontend</td>
+                <td data-i18n="rewrite.frontend.old">Vue 2 + Vuex</td>
+                <td data-i18n="rewrite.frontend.new">Vue 3 Composition API + Pinia</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.ui">UI Framework</td>
+                <td data-i18n="rewrite.ui.old">Element UI</td>
+                <td data-i18n="rewrite.ui.new">Naive UI</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.lang">Language</td>
+                <td data-i18n="rewrite.lang.old">JavaScript</td>
+                <td data-i18n="rewrite.lang.new">TypeScript + Rust</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.style">Styling</td>
+                <td data-i18n="rewrite.style.old">SCSS + Element theme</td>
+                <td data-i18n="rewrite.style.new">Vanilla CSS + custom properties</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.engine">Engine Management</td>
+                <td data-i18n="rewrite.engine.old">Node.js child_process</td>
+                <td data-i18n="rewrite.engine.new">Tauri sidecar</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.build">Build System</td>
+                <td data-i18n="rewrite.build.old">electron-builder</td>
+                <td data-i18n="rewrite.build.new">Vite + Cargo</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.size">Bundle Size</td>
+                <td data-i18n="rewrite.size.old">~80 MB</td>
+                <td data-i18n="rewrite.size.new">~20 MB</td>
+              </tr>
+              <tr>
+                <td data-i18n="rewrite.update">Auto-Update</td>
+                <td data-i18n="rewrite.update.old">electron-updater</td>
+                <td data-i18n="rewrite.update.new">Tauri updater plugin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="motion" class="section">
+        <h2 class="reveal" data-i18n="motion.title">Design &amp; Motion</h2>
+        <div class="prose reveal">
+          <p data-i18n="motion.p1">
+            The UI layout stays true to Motrix's original design — the sidebar navigation, task list, and preference
+            panels follow the familiar structure.
+          </p>
+          <p data-i18n-html="motion.p2">
+            Everything underneath changed. Every transition and micro-interaction follows
+            <a href="https://m3.material.io/styles/motion/overview" target="_blank" rel="noopener">Material Design 3</a>
+            motion guidelines.
+          </p>
+        </div>
+        <div class="card-grid col-2 reveal">
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3 data-i18n="motion.timing.title">Asymmetric timing</h3>
+            <p data-i18n="motion.timing.desc">
+              Enter animations are slightly longer than exits. New content takes time to land; dismissed content leaves
+              quickly.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+            </div>
+            <h3 data-i18n="motion.easing.title">Emphasized easing</h3>
+            <p data-i18n="motion.easing.desc">Decelerate on enter, accelerate on exit. No generic ease curves.</p>
+            <div class="curves">
+              <code>cubic-bezier(0.2, 0, 0, 1)</code><code>cubic-bezier(0.3, 0, 0.8, 0.15)</code>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M8 12h8" />
+              </svg>
+            </div>
+            <h3 data-i18n="motion.spring.title">Spring-based modals</h3>
+            <p data-i18n="motion.spring.desc">
+              Dialogs use physically-modeled spring animations for a natural, responsive feel.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
+                />
+              </svg>
+            </div>
+            <h3 data-i18n="motion.tokens.title">Motion tokens</h3>
+            <p data-i18n="motion.tokens.desc">
+              All durations and curves are CSS custom properties, ensuring a unified rhythm across 12+ components.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section section-wide">
+        <h2 class="reveal" data-i18n="features.title">Features</h2>
+        <div class="card-grid col-3 reveal">
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.protocol.title">Multi-protocol</h3>
+            <p data-i18n="features.protocol.desc">HTTP, FTP, BitTorrent, Magnet links.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 2v14a2 2 0 0 0 2 2h14" />
+                <path d="M18 22V8a2 2 0 0 0-2-2H2" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.bt.title">BitTorrent</h3>
+            <p data-i18n="features.bt.desc">Selective file download, DHT, peer exchange, encryption.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21.5 2v6s-6-1-6 5c0 4 6 5 6 5v6" />
+                <path d="M2.5 2v6s6-1 6 5c0 4-6 5-6 5v6" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.tracker.title">Tracker management</h3>
+            <p data-i18n="features.tracker.desc">Auto-sync from community tracker lists.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="6" height="16" x="4" y="6" rx="2" />
+                <rect width="6" height="9" x="14" y="6" rx="2" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.concurrent.title">Concurrent downloads</h3>
+            <p data-i18n="features.concurrent.desc">Up to 10 tasks with configurable thread count.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m12 14 4-4" />
+                <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+                <circle cx="12" cy="14" r="2" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.speed.title">Speed control</h3>
+            <p data-i18n="features.speed.desc">Global and per-task upload/download limits.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="M6 8h.001M10 8h.001" />
+                <rect width="8" height="4" x="8" y="12" rx="1" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.tray.title">System tray</h3>
+            <p data-i18n="features.tray.desc">Real-time speed display in the menu bar (macOS).</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.dark.title">Dark mode</h3>
+            <p data-i18n="features.dark.desc">Native dark theme with system preference detection.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.i18n.title">Internationalization</h3>
+            <p data-i18n="features.i18n.desc">Auto-detects system language on first launch.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.task.title">Task management</h3>
+            <p data-i18n="features.task.desc">Pause, resume, delete with file cleanup, batch operations.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.handler.title">Protocol handler</h3>
+            <p data-i18n="features.handler.desc">Register as default handler for magnet and thunder links.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.notify.title">Notifications</h3>
+            <p data-i18n="features.notify.desc">System notifications on task completion.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+                <line x1="16" y1="8" x2="2" y2="22" />
+                <line x1="17.5" y1="15" x2="9" y2="15" />
+              </svg>
+            </div>
+            <h3 data-i18n="features.light.title">Lightweight</h3>
+            <p data-i18n="features.light.desc">Tauri-powered, minimal resource footprint.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="download" class="section">
+        <h2 class="reveal" data-i18n="dl.title">Download</h2>
+
+        <p class="dl-detected reveal" id="dl-detected"></p>
+        <a
+          href="https://github.com/AnInsomniacy/motrix-next/releases"
+          class="cta cta-lg"
+          id="dl-primary"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span id="dl-primary-text" data-i18n="dl.primary.fallback">Download latest release</span>
+        </a>
+        <p class="dl-version reveal" id="dl-version"></p>
+        <button class="dl-toggle reveal" id="dl-toggle" type="button" data-i18n="dl.toggle">All platforms</button>
+        <div class="dl-all" id="dl-all">
+          <div class="dl-grid" id="dl-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Architecture selection modal -->
+    <div id="dl-modal" class="dl-modal" onclick="if (event.target === this) closeDlModal()">
+      <div class="dl-modal-card">
+        <button class="dl-modal-close" onclick="closeDlModal()" aria-label="Close">&times;</button>
+        <h3 class="dl-modal-title" id="dl-modal-title"></h3>
+        <div class="dl-modal-options" id="dl-modal-options"></div>
+        <p class="dl-modal-help" id="dl-modal-help"></p>
+      </div>
+    </div>
+
+    <footer id="footer">
+      <div class="footer-built">
+        <span data-i18n="footer.built">Built with</span>
+        <a href="https://tauri.app" target="_blank" rel="noopener" class="footer-tech-link"
+          ><img src="assets/tauri.svg" alt="Tauri" width="20" height="20" /> Tauri</a
+        >
+        <span class="footer-sep">·</span>
+        <a href="https://vite.dev" target="_blank" rel="noopener" class="footer-tech-link"
+          ><img src="assets/vite.svg" alt="Vite" width="18" height="18" /> Vite</a
+        >
+        <span class="footer-sep">·</span>
+        <a href="https://aria2.github.io/" target="_blank" rel="noopener" class="footer-tech">Aria2</a>
+      </div>
+      <p class="footer-ack" data-i18n-html="footer.ack">
+        Grateful to <a href="https://github.com/agalwood/Motrix" target="_blank" rel="noopener">Motrix</a> for laying
+        the groundwork
+      </p>
+      <div class="footer-links">
+        <a href="https://github.com/AnInsomniacy/motrix-next" target="_blank" rel="noopener">GitHub</a>
+        <a
+          href="https://github.com/AnInsomniacy/motrix-next/blob/master/docs/CONTRIBUTING.md"
+          target="_blank"
+          rel="noopener"
+          data-i18n="footer.contributing"
+          >Contributing</a
+        >
+        <a
+          href="https://github.com/AnInsomniacy/motrix-next/blob/master/docs/CODE_OF_CONDUCT.md"
+          target="_blank"
+          rel="noopener"
+          data-i18n="footer.coc"
+          >Code of Conduct</a
+        >
+      </div>
+      <p class="footer-license" data-i18n="footer.license">MIT — Copyright &copy; 2025-present AnInsomniacy</p>
+    </footer>
+
+    <script src="i18n.js"></script>
+    <script>
+      /* ── Scroll reveal ─────────────────────────────────────────────── */
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible')
+              obs.unobserve(e.target)
+            }
+          })
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' },
+      )
+      document.querySelectorAll('.reveal').forEach((el) => obs.observe(el))
+
+      /* ── Language picker ───────────────────────────────────────────── */
+      const langToggle = document.getElementById('lang-toggle')
+      const langDropdown = document.getElementById('lang-dropdown')
+
+      langToggle.addEventListener('click', (e) => {
+        e.stopPropagation()
+        langDropdown.classList.toggle('open')
+      })
+
+      document.addEventListener('click', () => {
+        langDropdown.classList.remove('open')
+      })
+
+      langDropdown.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-option')
+        if (!btn) return
+        const lang = btn.dataset.lang
+        if (lang) {
+          i18n.setLocale(lang)
+          langDropdown.classList.remove('open')
+        }
+      })
+
+      /* ── Download section (GitHub API + architecture modal) ─────────── */
+      const DL_ICON =
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+      const EXT_ICON =
+        '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+      const DL_SMALL_ICON =
+        '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+
+      const PLATFORMS = [
+        {
+          key: 'dmg-arm',
+          os: 'macOS',
+          arch: 'Apple Silicon',
+          fmt: '.dmg',
+          match: (n) => n.includes('aarch64') && n.endsWith('.dmg'),
+        },
+        {
+          key: 'dmg-x64',
+          os: 'macOS',
+          arch: 'Intel',
+          fmt: '.dmg',
+          match: (n) => n.includes('x64') && n.endsWith('.dmg'),
+        },
+        {
+          key: 'exe-x64',
+          os: 'Windows',
+          arch: 'x64',
+          fmt: '.exe',
+          match: (n) => n.includes('x64') && n.endsWith('-setup.exe'),
+        },
+        {
+          key: 'exe-arm',
+          os: 'Windows',
+          arch: 'ARM64',
+          fmt: '.exe',
+          match: (n) => /(?:aarch64|arm64)/.test(n) && n.endsWith('-setup.exe'),
+        },
+        {
+          key: 'appimage-x64',
+          os: 'Linux',
+          arch: 'x64',
+          fmt: '.AppImage',
+          match: (n) => n.includes('amd64') && n.endsWith('.AppImage'),
+        },
+        {
+          key: 'deb-x64',
+          os: 'Linux',
+          arch: 'x64',
+          fmt: '.deb',
+          match: (n) => n.includes('amd64') && n.endsWith('.deb'),
+        },
+        {
+          key: 'appimage-arm',
+          os: 'Linux',
+          arch: 'ARM64',
+          fmt: '.AppImage',
+          match: (n) => n.includes('aarch64') && n.endsWith('.AppImage'),
+        },
+        {
+          key: 'deb-arm',
+          os: 'Linux',
+          arch: 'ARM64',
+          fmt: '.deb',
+          match: (n) => /(?:aarch64|arm64)/.test(n) && n.endsWith('.deb'),
+        },
+        {
+          key: 'rpm-x64',
+          os: 'Linux',
+          arch: 'x64',
+          fmt: '.rpm',
+          match: (n) => n.includes('x86_64') && n.endsWith('.rpm'),
+        },
+        {
+          key: 'rpm-arm',
+          os: 'Linux',
+          arch: 'ARM64',
+          fmt: '.rpm',
+          match: (n) => n.includes('aarch64') && n.endsWith('.rpm'),
+        },
+      ]
+
+      /** Architecture choices per OS, shown in the modal. */
+      const ARCH_OPTIONS = {
+        macOS: [
+          { label: 'Apple Silicon', sub: 'arm64', dlKey: 'dmg-arm' },
+          { label: 'Intel', sub: 'x86_64', dlKey: 'dmg-x64' },
+        ],
+        Windows: [
+          { label: 'x64', sub: 'Intel / AMD', dlKey: 'exe-x64' },
+          { label: 'ARM64', sub: 'arm64', dlKey: 'exe-arm' },
+        ],
+        Linux: [
+          { label: 'x64', sub: 'amd64', dlKey: 'appimage-x64' },
+          { label: 'ARM64', sub: 'aarch64', dlKey: 'appimage-arm' },
+        ],
+      }
+
+      const ARCH_HELP_KEYS = {
+        macOS: 'dl.modal.help.macOS',
+        Windows: 'dl.modal.help.windows',
+        Linux: 'dl.modal.help.linux',
+      }
+
+      function detectOS() {
+        const ua = navigator.userAgent
+        if (ua.includes('Mac')) return 'macOS'
+        if (ua.includes('Win')) return 'Windows'
+        if (ua.includes('Android') || ua.includes('CrOS')) return null
+        if (ua.includes('Linux')) return 'Linux'
+        return null
+      }
+
+      /* ── Modal open / close ── */
+      const dlModal = document.getElementById('dl-modal')
+
+      function openDlModal(os, resolvedUrls, releaseUrl) {
+        const options = ARCH_OPTIONS[os]
+        if (!options) return
+
+        document.getElementById('dl-modal-title').textContent = i18n.t('dl.modal.title', { os })
+
+        const grid = document.getElementById('dl-modal-options')
+        grid.innerHTML = ''
+
+        for (const opt of options) {
+          const url = resolvedUrls[opt.dlKey]
+          const hasFile = !!url
+          const a = document.createElement('a')
+          a.href = url || releaseUrl
+          a.target = hasFile ? '_self' : '_blank'
+          a.rel = 'noopener'
+          a.className = 'dl-modal-opt' + (hasFile ? '' : ' dl-modal-opt--ghost')
+          a.innerHTML =
+            '<span class="dl-modal-opt-label">' +
+            opt.label +
+            '</span>' +
+            '<span class="dl-modal-opt-sub">' +
+            opt.sub +
+            '</span>' +
+            '<span class="dl-modal-opt-action">' +
+            (hasFile
+              ? DL_SMALL_ICON + ' ' + i18n.t('dl.modal.download')
+              : EXT_ICON + ' ' + i18n.t('dl.modal.viewRelease')) +
+            '</span>'
+          if (hasFile) {
+            a.addEventListener('click', () => {
+              setTimeout(closeDlModal, 300)
+            })
+          }
+          grid.appendChild(a)
+        }
+
+        const help = document.getElementById('dl-modal-help')
+        const helpKey = ARCH_HELP_KEYS[os]
+        help.innerHTML = i18n.t('dl.modal.notSure') + ' ' + (helpKey ? i18n.t(helpKey) : '')
+
+        dlModal.classList.add('open')
+        document.body.style.overflow = 'hidden'
+      }
+
+      function closeDlModal() {
+        dlModal.classList.remove('open')
+        document.body.style.overflow = ''
+      }
+
+      ;(async () => {
+        // Wait for i18n to be ready
+        await initI18n()
+
+        // Reveal page
+        document.body.classList.add('i18n-ready')
+
+        const os = detectOS()
+        const detected = document.getElementById('dl-detected')
+        const primary = document.getElementById('dl-primary')
+        const primaryText = document.getElementById('dl-primary-text')
+        const versionEl = document.getElementById('dl-version')
+        const toggle = document.getElementById('dl-toggle')
+        const allWrap = document.getElementById('dl-all')
+        const grid = document.getElementById('dl-grid')
+
+        if (os) detected.textContent = i18n.t('dl.detected', { os })
+
+        let cachedVer = ''
+        let hasPrimaryOS = false
+        i18n.onLocaleChange(() => {
+          if (os) detected.textContent = i18n.t('dl.detected', { os })
+          if (cachedVer) versionEl.textContent = i18n.t('dl.version', { ver: cachedVer })
+          if (hasPrimaryOS) {
+            primaryText.textContent = i18n.t('dl.primary', { os })
+          } else {
+            primaryText.textContent = i18n.t('dl.primary.fallback')
+          }
+        })
+
+        toggle.addEventListener('click', () => {
+          toggle.classList.toggle('active')
+          allWrap.classList.toggle('open')
+        })
+
+        // State shared between API fetch and click handlers
+        let resolvedUrls = {}
+        let releaseUrl = 'https://github.com/AnInsomniacy/motrix-next/releases'
+        let apiFailed = false
+
+        try {
+          const res = await fetch('https://api.github.com/repos/AnInsomniacy/motrix-next/releases/latest')
+          const data = await res.json()
+          const assets = data.assets || []
+          const ver = data.tag_name || ''
+          cachedVer = ver
+          releaseUrl = data.html_url || releaseUrl
+
+          versionEl.textContent = i18n.t('dl.version', { ver })
+
+          for (const p of PLATFORMS) {
+            const a = assets.find((a) => p.match(a.name))
+            if (a) resolvedUrls[p.key] = a.browser_download_url
+          }
+
+          // Update primary button text if OS detected
+          if (os) {
+            primaryText.textContent = i18n.t('dl.primary', { os })
+            hasPrimaryOS = true
+          }
+
+          // Build "All platforms" grid
+          for (const p of PLATFORMS) {
+            const url = resolvedUrls[p.key] || releaseUrl
+            const card = document.createElement('a')
+            card.href = url
+            card.target = '_blank'
+            card.rel = 'noopener'
+            card.className = 'dl-card'
+            card.innerHTML =
+              '<div class="dl-card-icon">' +
+              DL_ICON +
+              '</div>' +
+              '<div class="dl-card-info">' +
+              '<div class="dl-card-name">' +
+              p.os +
+              ' ' +
+              p.arch +
+              '</div>' +
+              '<div class="dl-card-meta">' +
+              p.fmt +
+              '</div>' +
+              '</div>'
+            grid.appendChild(card)
+          }
+        } catch {
+          apiFailed = true
+          primary.href = releaseUrl
+          primary.classList.add('cta-github')
+          primary.classList.remove('cta')
+          primaryText.textContent = i18n.t('dl.primary.fallback')
+        }
+
+        // Intercept all Download button clicks to show the architecture modal
+        function handleDownloadClick(e) {
+          if (apiFailed || !os) {
+            // API failed or OS unknown — fall through to default link behavior
+            return
+          }
+          e.preventDefault()
+          openDlModal(os, resolvedUrls, releaseUrl)
+        }
+
+        primary.addEventListener('click', handleDownloadClick)
+      })()
+
+      /* ── Lightbox ──────────────────────────────────────────────────── */
+      function openLightbox(src) {
+        const lb = document.getElementById('lightbox')
+        document.getElementById('lightbox-img').src = src
+        lb.classList.add('open')
+        document.body.style.overflow = 'hidden'
+      }
+      function closeLightbox() {
+        const lb = document.getElementById('lightbox')
+        lb.classList.remove('open')
+        document.body.style.overflow = ''
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeLightbox()
+          closeDlModal()
+          document.getElementById('theme-dropdown').classList.remove('open')
+        }
+      })
+      /* ── Theme picker (dropdown + View Transition API) ──────────────── */
+      ;(function initTheme() {
+        const THEME_KEY = 'motrix-theme'
+        const meta = document.querySelector('meta[name="theme-color"]')
+        const toggle = document.getElementById('theme-toggle')
+        const dropdown = document.getElementById('theme-dropdown')
+        const label = document.getElementById('theme-toggle-label')
+        const systemHint = document.getElementById('theme-system-hint')
+        const colors = { dark: '#0c0c0e', light: '#f8f6f2' }
+        const i18nKeys = { system: 'theme.system', light: 'theme.light', dark: 'theme.dark' }
+
+        function getSystemTheme() {
+          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        }
+
+        function getEffective(choice) {
+          return choice === 'system' ? getSystemTheme() : choice
+        }
+
+        function getStored() {
+          const v = localStorage.getItem(THEME_KEY)
+          if (v === 'light' || v === 'dark' || v === 'system') return v
+          return 'system'
+        }
+
+        function applyTheme(choice) {
+          const effective = getEffective(choice)
+          document.documentElement.dataset.theme = effective
+          if (meta) meta.content = colors[effective] || colors.dark
+          if (choice === 'system') {
+            localStorage.removeItem(THEME_KEY)
+          } else {
+            localStorage.setItem(THEME_KEY, choice)
+          }
+          // Update toggle label via i18n
+          label.textContent = i18n.t(i18nKeys[choice])
+          // Update system hint: "System (Dark)" / "System (Light)"
+          const sys = getSystemTheme()
+          const sysLabel = i18n.t(i18nKeys[sys])
+          systemHint.querySelector('span').textContent = i18n.t('theme.system') + ' (' + sysLabel + ')'
+          // Update active states
+          dropdown.querySelectorAll('.theme-option').forEach((opt) => {
+            opt.classList.toggle('active', opt.dataset.theme === choice)
+          })
+        }
+
+        // Apply immediately
+        applyTheme(getStored())
+
+        // Toggle dropdown
+        toggle.addEventListener('click', (e) => {
+          e.stopPropagation()
+          dropdown.classList.toggle('open')
+        })
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+          if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+            dropdown.classList.remove('open')
+          }
+        })
+
+        // Handle option selection with View Transition
+        dropdown.querySelectorAll('.theme-option').forEach((opt) => {
+          opt.addEventListener('click', async (e) => {
+            const choice = opt.dataset.theme
+            dropdown.classList.remove('open')
+
+            // Skip if already active
+            if (opt.classList.contains('active')) return
+
+            if (!document.startViewTransition) {
+              applyTheme(choice)
+              return
+            }
+
+            // Circular reveal from the toggle button position
+            const rect = toggle.getBoundingClientRect()
+            const x = rect.left + rect.width / 2
+            const y = rect.top + rect.height / 2
+            const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
+
+            const transition = document.startViewTransition(() => {
+              applyTheme(choice)
+            })
+
+            await transition.ready
+
+            document.documentElement.animate(
+              {
+                clipPath: [
+                  'circle(0px at ' + x + 'px ' + y + 'px)',
+                  'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)',
+                ],
+              },
+              {
+                duration: 600,
+                easing: 'ease-in-out',
+                pseudoElement: '::view-transition-new(root)',
+              },
+            )
+          })
+        })
+
+        // React to OS theme change when in system mode
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+          if (!localStorage.getItem(THEME_KEY)) {
+            applyTheme('system')
+          }
+        })
+      })()
+    </script>
+  </body>
+</html>

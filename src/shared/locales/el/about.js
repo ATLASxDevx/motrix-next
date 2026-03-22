@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'Έκδοση μηχανής',
+  'license': 'Άδεια',
+  'about': 'Σχετικά',
+  'release': 'Σημειώσεις έκδοσης',
+  'support': 'Υποστήριξη',
+  'description': 'Ένας πλήρης διαχειριστής λήψεων — ξαναχτισμένος από το μηδέν.',
+  'copied': '{label} αντιγράφηκε',
+  'click-to-copy': 'Κλικ για αντιγραφή',
+  'version-copied': 'Η έκδοση {label} αντιγράφηκε',
+  'app-version': 'Έκδοση Motrix Next',
+  'aria2-version': 'Έκδοση aria2',
+  'loading': 'Φόρτωση…',
+  'unavailable': 'Μη διαθέσιμο',
+}

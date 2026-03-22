@@ -1,0 +1,15 @@
+export default {
+  'engine-version': 'Версия на двигателя',
+  'license': 'Лиценз',
+  'about': 'Относно',
+  'release': 'Бележки към изданието',
+  'support': 'Поддръжка',
+  'description': 'Пълнофункционален мениджър за изтегляне — изграден отново от нулата.',
+  'copied': '{label} копиран',
+  'click-to-copy': 'Щракнете за копиране',
+  'version-copied': 'Версията на {label} е копирана',
+  'app-version': 'Версия на Motrix Next',
+  'aria2-version': 'Версия на aria2',
+  'loading': 'Зареждане…',
+  'unavailable': 'Недостъпен',
+}
