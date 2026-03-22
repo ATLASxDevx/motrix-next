@@ -1,18 +1,28 @@
 <div align="center">
   <img src="src/assets/logo.png" alt="Motrix Next" width="128" height="128" style="border-radius: 24px;" />
-  <h1>Motrix Next</h1>
+  <h1>Motrix Next — ATLAS Edition</h1>
   <p>A full-featured download manager — rebuilt from the ground up.</p>
+  <p><strong>Turkish localization, enhanced documentation</strong></p>
 
-  [![GitHub release](https://img.shields.io/github/v/release/AnInsomniacy/motrix-next.svg)](https://github.com/AnInsomniacy/motrix-next/releases)
-  ![Build](https://img.shields.io/github/actions/workflow/status/AnInsomniacy/motrix-next/release.yml?label=Build)
-  ![Total Downloads](https://img.shields.io/github/downloads/AnInsomniacy/motrix-next/total.svg)
+  [![GitHub release](https://img.shields.io/github/v/release/ATLASxDevx/motrix-next.svg)](https://github.com/ATLASxDevx/motrix-next/releases)
+  ![Build](https://img.shields.io/github/actions/workflow/status/ATLASxDevx/motrix-next/release.yml?label=Build)
+  ![Total Downloads](https://img.shields.io/github/downloads/ATLASxDevx/motrix-next/total.svg)
   <br>
   ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg)
   ![Bundle Size](https://img.shields.io/badge/bundle%20size-~20MB-brightgreen.svg)
 
-  [![Website](https://img.shields.io/badge/Website-E0A422?style=for-the-badge&logo=safari&logoColor=white)](https://motrix-next.pages.dev)
-  [![Download](https://img.shields.io/badge/Download-2b2b2b?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTIxIDE1djRhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJ2LTQiLz48cG9seWxpbmUgcG9pbnRzPSI3IDEwIDEyIDE1IDE3IDEwIi8+PGxpbmUgeDE9IjEyIiB5MT0iMTUiIHgyPSIxMiIgeTI9IjMiLz48L3N2Zz4=&logoColor=white)](https://github.com/AnInsomniacy/motrix-next/releases)
+  <br>
+
+  <a href="https://atlasmedya.net"><img src="https://img.shields.io/badge/ATLAS-atlasmedya.net-0A66C2?style=for-the-badge&amp;logo=web&amp;logoColor=white" alt="ATLAS Website" /></a>
+  <a href="https://github.com/ATLASxDevx"><img src="https://img.shields.io/badge/GitHub-ATLASxDevx-181717?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="ATLAS GitHub" /></a>
+  <a href="https://github.com/ATLASxDevx/motrix-next/releases"><img src="https://img.shields.io/badge/Download-Latest_Release-2b2b2b?style=for-the-badge&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTIxIDE1djRhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJ2LTQiLz48cG9seWxpbmUgcG9pbnRzPSI3IDEwIDEyIDE1IDE3IDEwIi8+PGxpbmUgeDE9IjEyIiB5MT0iMTUiIHgyPSIxMiIgeTI9IjMiLz48L3N2Zz4=&amp;logoColor=white" alt="Download" /></a>
+
 </div>
+
+---
+
+> **Built on top of [AnInsomniacy/motrix-next](https://github.com/AnInsomniacy/motrix-next)**
+> This fork adds Turkish localization, enhanced documentation, and ATLAS branding.
 
 ---
 
@@ -80,11 +90,11 @@ What changed is everything underneath. Every transition and micro-interaction ha
 
 ## Installation
 
-Download the latest release from [GitHub Releases](https://github.com/AnInsomniacy/motrix-next/releases).
+Download the latest release from [GitHub Releases](https://github.com/ATLASxDevx/motrix-next/releases).
 
 ### macOS Users
 
-This app is not code-signed — Apple charges $99/year and I'm a PhD student surviving on instant noodles 🍜
+This app is not code-signed — Apple charges $99/year.
 
 > If macOS says the app is **"damaged and can't be opened"**, open Terminal and run:
 >
@@ -107,6 +117,58 @@ These are fundamental constraints of the Tauri sidecar model and the Windows ope
 
 We provide **NSIS installers** for Windows — lightweight (~20 MB), fast to install, and fully featured.
 
+---
+
+## Turkce Kurulum Rehberi
+
+### Gereksinimler
+
+- **Windows 10/11** (x64 veya ARM64)
+- **macOS** 12+ (Apple Silicon veya Intel)
+- **Linux** (x64 veya ARM64, `.deb` / `.AppImage`)
+
+### Kurulum Adimlari
+
+#### Windows
+
+1. [Releases](https://github.com/ATLASxDevx/motrix-next/releases) sayfasindan en son `.exe` kurulum dosyasini indirin.
+2. Indirilen `.exe` dosyasini calistirin.
+3. Kurulum sihirbazini takip edin — varsayilan ayarlar cogu kullanici icin yeterlidir.
+4. Kurulum tamamlandiginda Motrix Next otomatik olarak baslatilabilir.
+
+#### macOS
+
+1. [Releases](https://github.com/ATLASxDevx/motrix-next/releases) sayfasindan `.dmg` dosyasini indirin.
+2. `.dmg` dosyasini acin ve uygulamayi `Applications` klasorune surukleyin.
+3. Eger macOS uygulamanin **"hasarli oldugunu ve acilamayacagini"** soylerse, Terminal'i acin ve su komutu calistirin:
+   ```bash
+   xattr -cr /Applications/MotrixNext.app
+   ```
+
+#### Linux
+
+1. [Releases](https://github.com/ATLASxDevx/motrix-next/releases) sayfasindan `.deb` veya `.AppImage` dosyasini indirin.
+2. **Debian/Ubuntu** icin:
+   ```bash
+   sudo dpkg -i motrix-next_*.deb
+   ```
+3. **AppImage** icin:
+   ```bash
+   chmod +x MotrixNext_*.AppImage
+   ./MotrixNext_*.AppImage
+   ```
+
+### Ozellikler
+
+- **Coklu protokol destegi** — HTTP, FTP, BitTorrent, Magnet baglantilari
+- **BitTorrent** — Secici dosya indirme, DHT, peer degisimi, sifreleme
+- **Es zamanli indirme** — 10'a kadar gorev, yapilandilabilir is parcacigi sayisi
+- **Hiz kontrolu** — Genel ve gorev bazinda yukleme/indirme limitleri
+- **Karanlik mod** — Sistem tercihi algilamali yerel karanlik tema
+- **Hafif** — Tauri tabanli, minimum kaynak kullanimi (~20 MB)
+
+---
+
 ## Development
 
 ### Prerequisites
@@ -119,7 +181,7 @@ We provide **NSIS installers** for Windows — lightweight (~20 MB), fast to ins
 
 ```bash
 # Clone the repository
-git clone https://github.com/AnInsomniacy/motrix-next.git
+git clone https://github.com/ATLASxDevx/motrix-next.git
 cd motrix-next
 
 # Install frontend dependencies
@@ -174,15 +236,22 @@ motrix-next/
 
 ## Acknowledgements
 
+- **Original project**: [AnInsomniacy/motrix-next](https://github.com/AnInsomniacy/motrix-next) — Built on top of this incredible rewrite
 - [Motrix](https://github.com/agalwood/Motrix) by [agalwood](https://github.com/agalwood) and all its contributors
 - [Aria2](https://aria2.github.io/) — the powerful download engine at the core
 - Community translators who contributed 25+ locale files for worldwide accessibility
 
+## ATLAS Fork Changes
+
+- Turkish localization, enhanced documentation
+- ATLAS branding and badge integration
+- Updated repository links and references
+
 ## Sponsor
 
-My supervisor doesn't know about this side project — [see what I'm supposed to be doing](https://github.com/AnInsomniacy).
+Support the original developer: [AnInsomniacy on GitHub](https://github.com/AnInsomniacy)
 
-[Buy me a coffee ☕](https://github.com/AnInsomniacy/AnInsomniacy/blob/main/SPONSOR.md) and maybe I'll finally afford that Apple certificate!
+[Buy them a coffee](https://github.com/AnInsomniacy/AnInsomniacy/blob/main/SPONSOR.md)
 
 ## Contributing
 
@@ -190,8 +259,8 @@ PRs and issues are welcome! Please read the [Contributing Guide](docs/CONTRIBUTI
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=AnInsomniacy/motrix-next&type=Date)](https://star-history.com/#AnInsomniacy/motrix-next&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ATLASxDevx/motrix-next&amp;type=Date)](https://star-history.com/#ATLASxDevx/motrix-next&amp;Date)
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT) — Copyright (c) 2025-present AnInsomniacy
+[MIT](https://opensource.org/licenses/MIT) — Copyright (c) 2025-present AnInsomniacy | Fork maintained by [ATLAS](https://github.com/ATLASxDevx)
